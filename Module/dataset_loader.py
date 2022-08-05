@@ -8,10 +8,21 @@ class DatasetLoader(object):
         self.dataset = Dataset(dataset_folder_path)
         return
 
+    def getSceneNum(self):
+        return len(self.dataset.scene_list)
+
+    def getScene(self, scene_idx):
+        if scene_idx >= self.getSceneNum():
+            print("[ERROR][DatasetLoader::getScene]")
+            print("\t scene_idx out of range!")
+            return None
+        return self.dataset.scene_list[scene_idx]
+
 def demo():
     dataset_folder_path = "/home/chli/scan2cad/scannet/scans/"
     dataset_loader = DatasetLoader(dataset_folder_path)
 
-    print(len(dataset_loader.dataset.scene_list))
+    scene = dataset_loader.getScene(0)
+    scene.outputInfo()
     return True
 
