@@ -107,3 +107,13 @@ class Scene(object):
     def isValid(self):
         return self.is_valid
 
+    def outputInfo(self, info_level=0):
+        line_start = "\t" * info_level
+        print(line_start + "[Scene]")
+        print(line_start + "\t scene_folder_path =", self.scene_folder_path)
+        print(line_start + "\t scene_name =", self.scene_name)
+        print(line_start + "\t space_id =", self.space_id)
+        print(line_start + "\t scan_id =", self.scan_id)
+        print(line_start + "\t is_valid =", self.is_valid)
+        return True
+

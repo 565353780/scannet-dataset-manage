@@ -45,3 +45,14 @@ class Dataset(object):
     def isValid(self):
         return self.is_valid
 
+    def outputInfo(self, info_level=0):
+        line_start = "\t" * info_level
+        print(line_start + "[Dataset]")
+        print(line_start + "\t dataset_folder_path =", self.dataset_folder_path)
+        print(line_start + "\t scene_num =", len(self.scene_list))
+        print(line_start + "\t is_valid =", self.is_valid)
+        print(line_start + "\t scene_list =")
+        for scene in self.scene_list:
+            scene.outputInfo(info_level + 2)
+        return True
+
