@@ -21,6 +21,8 @@ class Scene(object):
         self.vh_clean_aggregation_json = None
         self.txt = None
 
+        self.is_valid = False
+
         self.update()
         return
 
@@ -86,14 +88,22 @@ class Scene(object):
         if not os.path.exists(self.scene_folder_path):
             print("[ERROR][Scene::update]")
             print("\t scene_folder not exist!")
+            print("\t " + self.scene_folder_path)
             return False
+
         if not self.updateSceneId():
             print("[ERROR][Scene::update]")
             print("\t updateSceneId failed!")
             return False
+
         if not self.updateFilePath():
             print("[ERROR][Scene::update]")
             print("\t updateFilePath failed!")
             return False
+
+        self.is_valid = True
         return True
+
+    def isValid(self):
+        return self.is_valid
 
