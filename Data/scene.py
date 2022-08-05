@@ -14,12 +14,15 @@ class Scene(object):
         self.scan_id = None
         self.file_basepath = None
 
+        self.aggregation_json = None
         self.sens = None
+        self.txt = None
+        self.vh_clean_aggregation_json = None
         self.vh_clean_ply = None
         self.vh_clean_segs_json = None
-        self.aggregation_json = None
-        self.vh_clean_aggregation_json = None
-        self.txt = None
+        self.vh_clean_2_segs_json = None
+        self.vh_clean_2_labels_ply = None
+        self.vh_clean_2_ply = None
 
         self.is_valid = False
 
@@ -41,11 +44,29 @@ class Scene(object):
 
         not_exist_file_path_list = []
 
+        aggregation_json = self.file_basepath + ".aggregation.json"
+        if os.path.exists(aggregation_json):
+            self.aggregation_json = aggregation_json
+        else:
+            not_exist_file_path_list.append(aggregation_json)
+
         sens = self.file_basepath + ".sens"
         if os.path.exists(sens):
             self.sens = sens
         else:
             not_exist_file_path_list.append(sens)
+
+        txt = self.file_basepath + ".txt"
+        if os.path.exists(txt):
+            self.txt = txt
+        else:
+            not_exist_file_path_list.append(txt)
+
+        vh_clean_aggregation_json = self.file_basepath + "_vh_clean.aggregation.json"
+        if os.path.exists(vh_clean_aggregation_json):
+            self.vh_clean_aggregation_json = vh_clean_aggregation_json
+        else:
+            not_exist_file_path_list.append(vh_clean_aggregation_json)
 
         vh_clean_ply = self.file_basepath + "_vh_clean.ply"
         if os.path.exists(vh_clean_ply):
@@ -59,23 +80,23 @@ class Scene(object):
         else:
             not_exist_file_path_list.append(vh_clean_segs_json)
 
-        aggregation_json = self.file_basepath + ".aggregation.json"
-        if os.path.exists(aggregation_json):
-            self.aggregation_json = aggregation_json
+        vh_clean_2_segs_json = self.file_basepath + "_vh_clean_2.0.010000.segs.json"
+        if os.path.exists(vh_clean_2_segs_json):
+            self.vh_clean_2_segs_json = vh_clean_2_segs_json
         else:
-            not_exist_file_path_list.append(aggregation_json)
+            not_exist_file_path_list.append(vh_clean_2_segs_json)
 
-        vh_clean_aggregation_json = self.file_basepath + "_vh_clean.aggregation.json"
-        if os.path.exists(vh_clean_aggregation_json):
-            self.vh_clean_aggregation_json = vh_clean_aggregation_json
+        vh_clean_2_labels_ply = self.file_basepath + "_vh_clean_2.labels.ply"
+        if os.path.exists(vh_clean_2_labels_ply):
+            self.vh_clean_2_labels_ply = vh_clean_2_labels_ply
         else:
-            not_exist_file_path_list.append(vh_clean_aggregation_json)
+            not_exist_file_path_list.append(vh_clean_2_labels_ply)
 
-        txt = self.file_basepath + ".txt"
-        if os.path.exists(txt):
-            self.txt = txt
+        vh_clean_2_ply = self.file_basepath + "_vh_clean_2.ply"
+        if os.path.exists(vh_clean_2_ply):
+            self.vh_clean_2_ply = vh_clean_2_ply
         else:
-            not_exist_file_path_list.append(txt)
+            not_exist_file_path_list.append(vh_clean_2_ply)
 
         if len(not_exist_file_path_list) > 0:
             print("[WARN][Scene::updateFilePath]")
