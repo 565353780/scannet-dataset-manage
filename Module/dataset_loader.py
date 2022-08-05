@@ -22,7 +22,6 @@ def demo():
     dataset_folder_path = "/home/chli/scan2cad/scannet/scans/"
     dataset_loader = DatasetLoader(dataset_folder_path)
 
-    scene = dataset_loader.getScene(0)
-    scene.outputInfo()
+    dataset_loader.dataset.outputInfo()
     return True
 
