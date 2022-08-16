@@ -42,8 +42,8 @@ def demo():
 
     scene_loader = SceneLoader(scene_folder_path)
     labeled_object_num = scene_loader.getLabeledObjectNum()
-    print(labeled_object_num)
-    point_idx_list = scene_loader.getPointIdxListByLabeledObjectId(0)
-    print(point_idx_list)
+    for i in range(labeled_object_num):
+        point_idx_list = scene_loader.getPointIdxListByLabeledObjectId(i)
+        print("object", i, "have", len(point_idx_list), "points")
     return True
 
