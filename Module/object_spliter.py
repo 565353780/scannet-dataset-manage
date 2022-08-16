@@ -4,7 +4,7 @@
 import sys
 sys.path.append("../")
 sys.path.append("../mesh_manage/")
-#  from tqdm import tqdm
+from tqdm import tqdm
 
 from mesh_manage.Module.mesh_loader import MeshLoader
 from Module.dataset_loader import DatasetLoader
@@ -29,7 +29,9 @@ class ObjectSpliter(object):
         mesh_loader = MeshLoader(scene_mesh_file_path)
 
         object_num = scene.getLabeledObjectNum()
-        for object_idx in range(object_num):
+        print("[INFO][ObjectSpliter::splitScene]")
+        print("\t start split object in scene", scene_name, "...")
+        for object_idx in tqdm(range(object_num)):
             labeled_object = scene.getLabeledObjectById(object_idx)
             if labeled_object is None:
                 print("[ERROR][ObjectSpliter::splitObject]")
