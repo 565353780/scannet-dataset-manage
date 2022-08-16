@@ -2,6 +2,9 @@
 # -*- coding: utf-8 -*-
 
 import os
+import json
+
+from Data.labeled_object import LabeledObject
 
 class Scene(object):
     def __init__(self, scene_folder_path):
@@ -23,6 +26,9 @@ class Scene(object):
         self.vh_clean_2_segs_json = None
         self.vh_clean_2_labels_ply = None
         self.vh_clean_2_ply = None
+
+        self.segment_idx_list = []
+        self.labeled_object_list = []
 
         self.is_valid = False
 
@@ -105,21 +111,66 @@ class Scene(object):
                 print("\t\t " + not_exist_file_path)
         return True
 
+    def loadSegmentIdx(self):
+        if self.vh_clean_2_segs_json is None:
+            print("[ERROR][Scene::loadSegmentIdx]")
+            print("\t file vh_clean_2_segs_json not exist!")
+            return False
+
+        vh_clean_2_segs_json = {}
+        with open(self.vh_clean_2_segs_json, "r") as f:
+            vh_clean_2_segs_json = json.load(f)
+
+        if "segIndices" not in vh_clean_2_segs_json.keys():
+            print("[ERROR][Scene::loadSegmentIdx]")
+            print("\t key segIndices not found!")
+            return False
+
+        self.segment_idx_list = vh_clean_2_segs_json["segIndices"]
+        return True
+
+    def loadAggregation(self):
+        if self.vh_clean_aggregation_json is None:
+            print("[ERROR][Scene::loadAggregation]")
+            print("\t file vh_clean_aggregation_json not exist!")
+            return False
+
+        vh_clean_aggregation_json = {}
+        with open(self.vh_clean_aggregation_json, "r") as f:
+            vh_clean_aggregation_json = json.load(f)
+
+        if "segGroups" not in vh_clean_aggregation_json.keys():
+            print("[ERROR][Scene::loadAggregation]")
+            print("\t key segGroups not found!")
+            return False
+
+        for object_dict in vh_clean_aggregation_json["segGroups"]:
+            labeled_object = LabeledObject(object_dict=object_dict)
+            self.labeled_object_list.append(labeled_object)
+        return True
+
     def update(self):
         if not os.path.exists(self.scene_folder_path):
             print("[ERROR][Scene::update]")
             print("\t scene_folder not exist!")
             print("\t " + self.scene_folder_path)
             return False
-
         if not self.updateSceneId():
             print("[ERROR][Scene::update]")
             print("\t updateSceneId failed!")
             return False
-
         if not self.updateFilePath():
             print("[ERROR][Scene::update]")
             print("\t updateFilePath failed!")
+            return False
+
+        if not self.loadSegmentIdx():
+            print("[ERROR][Scene::loadData]")
+            print("\t loadSegmentIdx failed!")
+            return False
+        if not self.loadAggregation():
+            print("[ERROR][Scene::loadData]")
+            print("\t loadAggregation failed!")
             return False
 
         self.is_valid = True

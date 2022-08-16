@@ -19,9 +19,8 @@ class DatasetLoader(object):
         return self.dataset.scene_list[scene_idx]
 
 def demo():
-    dataset_folder_path = "/home/chli/scan2cad/scannet/scans/"
-    dataset_loader = DatasetLoader(dataset_folder_path)
+    dataset_folder_path = "/home/chli/chLi/ScanNet/scans/"
 
-    dataset_loader.dataset.outputInfo()
+    dataset_loader = DatasetLoader(dataset_folder_path)
     return True
 
