@@ -13,8 +13,6 @@ class Dataset(object):
 
         self.scene_list = []
 
-        self.is_valid = False
-
         self.update()
         return
 
@@ -33,17 +31,11 @@ class Dataset(object):
             print("\t dataset_folder not exist!")
             print("\t " + self.dataset_folder_path)
             return False
-
         if not self.updateSceneList():
             print("[ERROR][Dataset::update]")
             print("\t updateSceneList failed!")
             return False
-
-        self.is_valid = True
         return True
-
-    def isValid(self):
-        return self.is_valid
 
     def outputInfo(self, info_level=0):
         line_start = "\t" * info_level
