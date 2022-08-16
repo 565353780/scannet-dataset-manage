@@ -3,6 +3,7 @@
 
 import os
 import json
+import numpy as np
 
 from Data.labeled_object import LabeledObject
 
@@ -178,6 +179,53 @@ class Scene(object):
 
     def isValid(self):
         return self.is_valid
+
+    def getLabeledObjectNum(self):
+        return len(self.labeled_object_list)
+
+    def getLabeledObjectById(self, labeled_object_id):
+        for labeled_object in self.labeled_object_list:
+            if labeled_object.id == labeled_object_id:
+                return labeled_object
+
+        print("[ERROR][Scene::getLabeledObjectById]")
+        print("\t labeled_object with this id not found!")
+        return None
+
+    def getLabeledObjectByObjectId(self, labeled_object_object_id):
+        for labeled_object in self.labeled_object_list:
+            if labeled_object.object_id == labeled_object_object_id:
+                return labeled_object
+
+        print("[ERROR][Scene::getLabeledObjectByObjectId]")
+        print("\t labeled_object with this object_id not found!")
+        return None
+
+    def getPointIdxListBySegmentIdxList(self, segment_idx_list):
+        point_idx_list = np.where(np.isin(self.segment_idx_list, segment_idx_list))[0].tolist()
+        return point_idx_list
+
+    def getPointIdxListByLabeledObjectId(self, labeled_object_id):
+        labeled_object = self.getLabeledObjectById(labeled_object_id)
+        if labeled_object is None:
+            print("[ERROR][Scene::getPointIdxListByLabeledObjectId]")
+            print("\t getLabeledObjectById failed!")
+            return None
+
+        object_segment_idx_list = labeled_object.segment_idx_list
+        point_idx_list = self.getPointIdxListBySegmentIdxList(object_segment_idx_list)
+        return point_idx_list
+
+    def getPointIdxListByLabeledObjectObjectId(self, labeled_object_object_id):
+        labeled_object = self.getLabeledObjectByObjectId(labeled_object_object_id)
+        if labeled_object is None:
+            print("[ERROR][Scene::getPointIdxListByLabeledObjectObjectId]")
+            print("\t getLabeledObjectByObjectId failed!")
+            return None
+
+        object_segment_idx_list = labeled_object.segment_idx_list
+        point_idx_list = self.getPointIdxListBySegmentIdxList(object_segment_idx_list)
+        return point_idx_list
 
     def outputInfo(self, info_level=0):
         line_start = "\t" * info_level
