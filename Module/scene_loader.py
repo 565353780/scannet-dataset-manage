@@ -12,7 +12,12 @@ class SceneLoader(object):
         return self.scene.getLabeledObjectNum()
 
     def getPointIdxListByLabeledObjectId(self, labeled_object_id):
-        return self.scene.getPointIdxListByLabeledObjectId(labeled_object_id)
+        labeled_object = self.scene.getLabeledObjectById(labeled_object_id)
+        if labeled_object is None:
+            print("[ERROR][SceneLoader::getPointIdxListByLabeledObjectId]")
+            print("\t getLabeledObjectById failed!")
+            return None
+        return self.scene.getPointIdxListByLabeledObject(labeled_object)
 
 def demo():
     scene_folder_path = "/home/chli/chLi/ScanNet/scans/scene0000_00/"
