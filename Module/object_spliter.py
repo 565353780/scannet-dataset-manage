@@ -6,7 +6,7 @@ sys.path.append("../")
 sys.path.append("../mesh_manage/")
 from tqdm import tqdm
 
-from mesh_manage.Module.mesh_loader import MeshLoader
+from mesh_manage.Module.channel_mesh import ChannelMesh
 from Module.dataset_loader import DatasetLoader
 
 class ObjectSpliter(object):
@@ -26,7 +26,7 @@ class ObjectSpliter(object):
             print("[ERROR][ObjectSpliter::splitScene]")
             print("\t scene_mesh_file not found!")
             return False
-        mesh_loader = MeshLoader(scene_mesh_file_path)
+        channel_mesh = ChannelMesh(scene_mesh_file_path)
 
         object_num = scene.getLabeledObjectNum()
         print("[INFO][ObjectSpliter::splitScene]")
@@ -43,7 +43,7 @@ class ObjectSpliter(object):
                 "_" + labeled_object.label + ".ply"
 
             point_idx_list = scene.getPointIdxListByLabeledObject(labeled_object)
-            if not mesh_loader.generateMeshByPoint(point_idx_list, save_object_mesh_file_path):
+            if not channel_mesh.generateMeshByPoint(point_idx_list, save_object_mesh_file_path):
                 print("[ERROR][ObjectSpliter::splitObject]")
                 print("\t generateMeshByPoint failed!")
                 return False
@@ -61,6 +61,7 @@ class ObjectSpliter(object):
             print("[INFO][ObjectSpliter::splitAll]")
             print("\t start split scene", scene.scene_name, ",", scene_idx + 1, "/", scene_num, "...")
             self.splitScene(scene)
+            return
         return True
 
 def demo():
