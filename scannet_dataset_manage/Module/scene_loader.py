@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from Data.scene import Scene
+from scannet_dataset_manage.Data.scene import Scene
 
 class SceneLoader(object):
     def __init__(self, scene_folder_path):

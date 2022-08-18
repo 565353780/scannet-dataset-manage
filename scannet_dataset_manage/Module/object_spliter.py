@@ -2,12 +2,15 @@
 # -*- coding: utf-8 -*-
 
 import sys
-sys.path.append("../")
-sys.path.append("../mesh_manage/")
+sys.path.append("../mesh-manage/")
+
+import os
 from tqdm import tqdm
 
 from mesh_manage.Module.channel_mesh import ChannelMesh
-from Module.dataset_loader import DatasetLoader
+
+from scannet_dataset_manage.Method.path import removeIfExist
+from scannet_dataset_manage.Module.dataset_loader import DatasetLoader
 
 class ObjectSpliter(object):
     def __init__(self, dataset_folder_path, save_object_folder_path):
@@ -41,12 +44,19 @@ class ObjectSpliter(object):
             save_object_mesh_file_path = save_object_basepath + \
                 str(labeled_object.object_id) + \
                 "_" + labeled_object.label + ".ply"
+            if os.path.exists(save_object_mesh_file_path):
+                continue
+
+            tmp_save_object_mesh_file_path = "tmp_" + save_object_mesh_file_path
+            removeIfExist(tmp_save_object_mesh_file_path)
 
             point_idx_list = scene.getPointIdxListByLabeledObject(labeled_object)
-            if not channel_mesh.generateMeshByPoint(point_idx_list, save_object_mesh_file_path):
+            if not channel_mesh.generateMeshByPoint(point_idx_list, tmp_save_object_mesh_file_path):
                 print("[ERROR][ObjectSpliter::splitObject]")
                 print("\t generateMeshByPoint failed!")
                 return False
+
+            os.rename(tmp_save_object_mesh_file_path, save_object_mesh_file_path)
         return True
 
     def splitAll(self):
@@ -61,7 +71,6 @@ class ObjectSpliter(object):
             print("[INFO][ObjectSpliter::splitAll]")
             print("\t start split scene", scene.scene_name, ",", scene_idx + 1, "/", scene_num, "...")
             self.splitScene(scene)
-            return
         return True
 
 def demo():

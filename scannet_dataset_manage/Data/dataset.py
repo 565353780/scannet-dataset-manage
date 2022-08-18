@@ -3,7 +3,7 @@
 
 import os
 
-from Data.scene import Scene
+from scannet_dataset_manage.Data.scene import Scene
 
 class Dataset(object):
     def __init__(self, dataset_folder_path):

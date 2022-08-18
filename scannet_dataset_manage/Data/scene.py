@@ -5,7 +5,7 @@ import os
 import json
 import numpy as np
 
-from Data.labeled_object import LabeledObject
+from scannet_dataset_manage.Data.labeled_object import LabeledObject
 
 class Scene(object):
     def __init__(self, scene_folder_path):
