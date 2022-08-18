@@ -47,7 +47,7 @@ class ObjectSpliter(object):
             if os.path.exists(save_object_mesh_file_path):
                 continue
 
-            tmp_save_object_mesh_file_path = "tmp_" + save_object_mesh_file_path
+            tmp_save_object_mesh_file_path = save_object_mesh_file_path[:-4] + "_tmp.ply"
             removeIfExist(tmp_save_object_mesh_file_path)
 
             point_idx_list = scene.getPointIdxListByLabeledObject(labeled_object)
