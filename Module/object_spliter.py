@@ -58,10 +58,9 @@ class ObjectSpliter(object):
                 print("\t getScene failed!")
                 return False
 
-            print("start split scene", scene.scene_name)
-
+            print("[INFO][ObjectSpliter::splitAll]")
+            print("\t start split scene", scene.scene_name, ",", scene_idx + 1, "/", scene_num, "...")
             self.splitScene(scene)
-            return
         return True
 
 def demo():
