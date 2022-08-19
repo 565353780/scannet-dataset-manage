@@ -3,10 +3,10 @@
 ## Install
 
 ```bash
-git clone https://github.com/565353780/scannet-dataset-manage.git ./scannet_dataset_manage
-git clone https://github.com/565353780/mesh-manage.git ./mesh_manage
+git clone https://github.com/565353780/scannet-dataset-manage.git
+git clone https://github.com/565353780/mesh-manage.git
 pip install tqdm
-cd scannet_dataset_manage
+cd scannet-dataset-manage
 ```
 
 ## Run
