@@ -1,8 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+
 class LabeledObject(object):
-    def __init__(self, id=None, object_id=None, segment_idx_list=None, label=None, object_dict=None):
+
+    def __init__(self,
+                 id=None,
+                 object_id=None,
+                 segment_idx_list=None,
+                 label=None,
+                 object_dict=None):
         self.id = id
         self.object_id = object_id
         self.segment_idx_list = segment_idx_list
@@ -18,4 +25,3 @@ class LabeledObject(object):
         self.segment_idx_list = object_dict["segments"]
         self.label = object_dict["label"]
         return True
-

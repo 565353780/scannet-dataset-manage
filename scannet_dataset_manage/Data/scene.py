@@ -7,7 +7,9 @@ import numpy as np
 
 from scannet_dataset_manage.Data.labeled_object import LabeledObject
 
+
 class Scene(object):
+
     def __init__(self, scene_folder_path):
         self.scene_folder_path = scene_folder_path
         if self.scene_folder_path[-1] != "/":
@@ -41,7 +43,8 @@ class Scene(object):
             print("\t scene_folder_name not valid!")
             return False
 
-        self.space_id, self.scan_id = self.scene_name.split("scene")[1].split("_")
+        self.space_id, self.scan_id = self.scene_name.split("scene")[1].split(
+            "_")
         return True
 
     def updateFilePath(self):
@@ -195,7 +198,8 @@ class Scene(object):
         return None
 
     def getPointIdxListBySegmentIdxList(self, segment_idx_list):
-        point_idx_list = np.where(np.isin(self.segment_idx_list, segment_idx_list))[0].tolist()
+        point_idx_list = np.where(
+            np.isin(self.segment_idx_list, segment_idx_list))[0].tolist()
         return point_idx_list
 
     def getPointIdxListByLabeledObject(self, labeled_object):
@@ -205,7 +209,8 @@ class Scene(object):
             return None
 
         object_segment_idx_list = labeled_object.segment_idx_list
-        point_idx_list = self.getPointIdxListBySegmentIdxList(object_segment_idx_list)
+        point_idx_list = self.getPointIdxListBySegmentIdxList(
+            object_segment_idx_list)
         return point_idx_list
 
     def outputInfo(self, info_level=0):
@@ -216,4 +221,3 @@ class Scene(object):
         print(line_start + "\t space_id =", self.space_id)
         print(line_start + "\t scan_id =", self.scan_id)
         return True
-
