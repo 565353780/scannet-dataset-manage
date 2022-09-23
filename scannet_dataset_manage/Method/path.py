@@ -16,6 +16,15 @@ def createFileFolder(file_path):
     return True
 
 
+def renameFile(source_file_path, target_file_path):
+    while os.path.exists(source_file_path):
+        try:
+            os.rename(source_file_path, target_file_path)
+        except:
+            pass
+    return True
+
+
 def removeIfExist(file_path):
     if not os.path.exists(file_path):
         return True
