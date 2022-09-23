@@ -25,10 +25,7 @@ class ObjectBBoxGenerator(object):
 
     def getObjectBBox(self, object_file_path):
         assert os.path.exists(object_file_path)
-
-        object_bbox = ChannelMesh(object_file_path).getBBox()
-        object_bbox.outputInfo()
-        return object_bbox.toList()
+        return ChannelMesh(object_file_path).getBBox().toList()
 
     def getSceneObjectBBoxDict(self, scene_folder_path):
         assert os.path.exists(scene_folder_path)
