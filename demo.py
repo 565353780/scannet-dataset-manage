@@ -14,7 +14,7 @@ def autoExtractDataset():
 
 if __name__ == "__main__":
     #  demo_dataset()
-    #  demo_split_object()
+    demo_split_object()
     demo_generate_object_bbox()
 
     #  autoExtractDataset()
