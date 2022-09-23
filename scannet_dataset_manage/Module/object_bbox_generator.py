@@ -10,18 +10,15 @@ import os
 import json
 from tqdm import tqdm
 
-from scannet_dataset_manage.Method.path import createFileFolder
+from scannet_dataset_manage.Method.path import createFileFolder, renameFile
 
 
 class ObjectBBoxGenerator(object):
 
-    def __init__(self):
-        self.object_bbox_dict = {}
+    def __init__(self, objects_folder_path, save_json_folder_path):
+        self.objects_folder_path = objects_folder_path
+        self.save_json_folder_path = save_json_folder_path
         return
-
-    def reset(self):
-        self.object_bbox_dict = {}
-        return True
 
     def getObjectBBox(self, object_file_path):
         assert os.path.exists(object_file_path)
@@ -42,37 +39,39 @@ class ObjectBBoxGenerator(object):
                 object_file_path)
         return scene_object_bbox_dict
 
-    def loadAllObjectBBox(self, objects_folder_path):
-        assert os.path.exists(objects_folder_path)
+    def generateObjectBBoxJson(self):
+        assert os.path.exists(self.objects_folder_path)
 
-        self.reset()
-
-        scene_name_list = os.listdir(objects_folder_path)
+        scene_name_list = os.listdir(self.objects_folder_path)
         for i, scene_name in enumerate(scene_name_list):
-            scene_folder_path = objects_folder_path + scene_name + "/"
+            save_json_file_path = self.save_json_folder_path + scene_name + "/" + \
+                "object_bbox.json"
+            if os.path.exists(save_json_file_path):
+                continue
+
+            scene_folder_path = self.objects_folder_path + scene_name + "/"
 
             print("[INFO][ObjectBBoxGenerator::loadAllObjectBBox]")
             print("\t start split scene", scene_name, ",", i + 1, "/",
                   len(scene_name_list), "...")
-            self.object_bbox_dict[scene_name] = self.getSceneObjectBBoxDict(
+            scene_object_bbox_dict = self.getSceneObjectBBoxDict(
                 scene_folder_path)
-        return True
 
-    def generateObjectBBoxJson(self, objects_folder_path, save_json_file_path):
-        assert self.loadAllObjectBBox(objects_folder_path)
+            tmp_save_json_file_path = save_json_file_path[:-5] + "_tmp.json"
+            createFileFolder(tmp_save_json_file_path)
 
-        createFileFolder(save_json_file_path)
+            with open(tmp_save_json_file_path, "w") as f:
+                f.write(json.dumps(scene_object_bbox_dict, indent=4))
 
-        with open(save_json_file_path, "w") as f:
-            f.write(json.dumps(self.object_bbox_dict))
+            renameFile(tmp_save_json_file_path, save_json_file_path)
         return True
 
 
 def demo():
     objects_folder_path = "/home/chli/chLi/ScanNet/objects/"
-    save_json_file_path = "/home/chli/chLi/ScanNet/bboxs/object_bbox.json"
+    save_json_folder_path = "/home/chli/chLi/ScanNet/bboxes/"
 
-    object_bbox_generator = ObjectBBoxGenerator()
-    object_bbox_generator.generateObjectBBoxJson(objects_folder_path,
-                                                 save_json_file_path)
+    object_bbox_generator = ObjectBBoxGenerator(objects_folder_path,
+                                                save_json_folder_path)
+    object_bbox_generator.generateObjectBBoxJson()
     return True
