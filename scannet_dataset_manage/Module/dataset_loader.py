@@ -22,14 +22,3 @@ class DatasetLoader(object):
             print("\t scene_name out of range!")
             return None
         return self.dataset.scene_dict[scene_name]
-
-
-def demo():
-    dataset_folder_path = "/home/chli/chLi/ScanNet/scans/"
-
-    dataset_loader = DatasetLoader(dataset_folder_path)
-    scene_num = dataset_loader.getSceneNum()
-    print("scene_num =", scene_num)
-    scene_name_list = dataset_loader.getSceneNameList()
-    print("scene_name_list =", scene_name_list)
-    return True

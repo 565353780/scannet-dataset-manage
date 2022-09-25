@@ -65,13 +65,3 @@ class ObjectBBoxGenerator(object):
 
             renameFile(tmp_save_json_file_path, save_json_file_path)
         return True
-
-
-def demo():
-    objects_folder_path = "/home/chli/chLi/ScanNet/objects/"
-    save_json_folder_path = "/home/chli/chLi/ScanNet/bboxes/"
-
-    object_bbox_generator = ObjectBBoxGenerator(objects_folder_path,
-                                                save_json_folder_path)
-    object_bbox_generator.generateObjectBBoxJson()
-    return True

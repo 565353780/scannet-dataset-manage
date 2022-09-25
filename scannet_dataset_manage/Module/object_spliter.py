@@ -56,8 +56,8 @@ class ObjectSpliter(object):
         return True
 
     def splitAll(self):
-        # for me only
-        finished_scene_idx = 317
+        #FIXME: for me only
+        finished_scene_idx = 792
         scene_name_list = self.dataset_loader.getSceneNameList()
         for i, scene_name in enumerate(scene_name_list):
             if i + 1 < finished_scene_idx:
@@ -71,13 +71,3 @@ class ObjectSpliter(object):
                   len(scene_name_list), "...")
             self.splitScene(scene)
         return True
-
-
-def demo():
-    dataset_folder_path = "/home/chli/chLi/ScanNet/scans/"
-    save_object_folder_path = "/home/chli/chLi/ScanNet/objects/"
-
-    object_spliter = ObjectSpliter(dataset_folder_path,
-                                   save_object_folder_path)
-    object_spliter.splitAll()
-    return True

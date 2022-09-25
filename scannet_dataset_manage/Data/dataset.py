@@ -32,15 +32,8 @@ class Dataset(object):
         return True
 
     def update(self):
-        if not os.path.exists(self.dataset_folder_path):
-            print("[ERROR][Dataset::update]")
-            print("\t dataset_folder not exist!")
-            print("\t " + self.dataset_folder_path)
-            return False
-        if not self.updateSceneList():
-            print("[ERROR][Dataset::update]")
-            print("\t updateSceneList failed!")
-            return False
+        assert os.path.exists(self.dataset_folder_path)
+        assert self.updateSceneList()
         return True
 
     def outputInfo(self, info_level=0):

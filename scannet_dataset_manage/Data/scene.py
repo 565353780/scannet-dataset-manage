@@ -38,10 +38,7 @@ class Scene(object):
 
     def updateSceneId(self):
         self.scene_name = self.scene_folder_path.split("/")[-2]
-        if "scene" not in self.scene_name:
-            print("[ERROR][Scene::updateSceneId]")
-            print("\t scene_folder_name not valid!")
-            return False
+        assert "scene" in self.scene_name
 
         self.space_id, self.scan_id = self.scene_name.split("scene")[1].split(
             "_")
@@ -114,37 +111,25 @@ class Scene(object):
         return True
 
     def loadSegmentIdx(self):
-        if self.vh_clean_2_segs_json is None:
-            print("[ERROR][Scene::loadSegmentIdx]")
-            print("\t file vh_clean_2_segs_json not exist!")
-            return False
+        assert self.vh_clean_2_segs_json is not None
 
         vh_clean_2_segs_json = {}
         with open(self.vh_clean_2_segs_json, "r") as f:
             vh_clean_2_segs_json = json.load(f)
 
-        if "segIndices" not in vh_clean_2_segs_json.keys():
-            print("[ERROR][Scene::loadSegmentIdx]")
-            print("\t key segIndices not found!")
-            return False
+        assert "segIndices" in vh_clean_2_segs_json.keys()
 
         self.segment_idx_list = vh_clean_2_segs_json["segIndices"]
         return True
 
     def loadAggregation(self):
-        if self.vh_clean_aggregation_json is None:
-            print("[ERROR][Scene::loadAggregation]")
-            print("\t file vh_clean_aggregation_json not exist!")
-            return False
+        assert self.vh_clean_aggregation_json is not None
 
         vh_clean_aggregation_json = {}
         with open(self.vh_clean_aggregation_json, "r") as f:
             vh_clean_aggregation_json = json.load(f)
 
-        if "segGroups" not in vh_clean_aggregation_json.keys():
-            print("[ERROR][Scene::loadAggregation]")
-            print("\t key segGroups not found!")
-            return False
+        assert "segGroups" in vh_clean_aggregation_json.keys()
 
         for object_dict in vh_clean_aggregation_json["segGroups"]:
             labeled_object = LabeledObject(object_dict=object_dict)
@@ -152,28 +137,11 @@ class Scene(object):
         return True
 
     def update(self):
-        if not os.path.exists(self.scene_folder_path):
-            print("[ERROR][Scene::update]")
-            print("\t scene_folder not exist!")
-            print("\t " + self.scene_folder_path)
-            return False
-        if not self.updateSceneId():
-            print("[ERROR][Scene::update]")
-            print("\t updateSceneId failed!")
-            return False
-        if not self.updateFilePath():
-            print("[ERROR][Scene::update]")
-            print("\t updateFilePath failed!")
-            return False
-
-        if not self.loadSegmentIdx():
-            print("[ERROR][Scene::loadData]")
-            print("\t loadSegmentIdx failed!")
-            return False
-        if not self.loadAggregation():
-            print("[ERROR][Scene::loadData]")
-            print("\t loadAggregation failed!")
-            return False
+        assert os.path.exists(self.scene_folder_path)
+        assert self.updateSceneId()
+        assert self.updateFilePath()
+        assert self.loadSegmentIdx()
+        assert self.loadAggregation()
         return True
 
     def getLabeledObjectNum(self):
@@ -203,10 +171,7 @@ class Scene(object):
         return point_idx_list
 
     def getPointIdxListByLabeledObject(self, labeled_object):
-        if labeled_object is None:
-            print("[ERROR][Scene::getPointIdxListByLabeledObject]")
-            print("\t labeled_object is None!")
-            return None
+        assert labeled_object is not None
 
         object_segment_idx_list = labeled_object.segment_idx_list
         point_idx_list = self.getPointIdxListBySegmentIdxList(
