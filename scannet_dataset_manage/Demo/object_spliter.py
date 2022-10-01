@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import sys
+
+sys.path.append("../mesh-manage/")
+
 from scannet_dataset_manage.Module.object_spliter import ObjectSpliter
 
 

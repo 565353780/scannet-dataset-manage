@@ -1,13 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import sys
-
-sys.path.append("../mesh-manage/")
-from mesh_manage.Module.channel_mesh import ChannelMesh
-
 import os
 from tqdm import tqdm
+
+from mesh_manage.Module.channel_mesh import ChannelMesh
 
 from scannet_dataset_manage.Method.path import renameFile, removeIfExist
 
@@ -57,7 +54,7 @@ class ObjectSpliter(object):
 
     def splitAll(self):
         #FIXME: for me only
-        finished_scene_idx = 792
+        finished_scene_idx = 1369
         scene_name_list = self.dataset_loader.getSceneNameList()
         for i, scene_name in enumerate(scene_name_list):
             if i + 1 < finished_scene_idx:

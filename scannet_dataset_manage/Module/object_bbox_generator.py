@@ -1,14 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import sys
-
-sys.path.append("../mesh-manage/")
-from mesh_manage.Module.channel_mesh import ChannelMesh
-
 import os
 import json
 from tqdm import tqdm
+
+from mesh_manage.Module.channel_mesh import ChannelMesh
 
 from scannet_dataset_manage.Method.path import createFileFolder, renameFile
 
