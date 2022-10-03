@@ -22,6 +22,11 @@ class ObjectSpliter(object):
         scene_name = scene.scene_name
         save_object_basepath = self.save_object_folder_path + scene_name + "/"
 
+        if os.path.exists(save_object_basepath):
+            return
+
+        tmp_save_object_basepath = save_object_basepath[:-1] + "_tmp/"
+
         scene_mesh_file_path = scene.vh_clean_2_ply
         assert scene_mesh_file_path is not None
 
@@ -34,7 +39,7 @@ class ObjectSpliter(object):
             labeled_object = scene.getLabeledObjectById(object_idx)
             assert labeled_object is not None
 
-            save_object_mesh_file_path = save_object_basepath + \
+            save_object_mesh_file_path = tmp_save_object_basepath + \
                 str(labeled_object.object_id) + \
                 "_" + labeled_object.label + ".ply"
             if os.path.exists(save_object_mesh_file_path):
@@ -50,21 +55,22 @@ class ObjectSpliter(object):
 
             renameFile(tmp_save_object_mesh_file_path,
                        save_object_mesh_file_path)
-        return True
+
+        renameFile(tmp_save_object_basepath, save_object_basepath)
+        return
 
     def splitAll(self):
-        #FIXME: for me only
-        finished_scene_idx = 1369
         scene_name_list = self.dataset_loader.getSceneNameList()
         for i, scene_name in enumerate(scene_name_list):
-            if i + 1 < finished_scene_idx:
-                continue
-
             scene = self.dataset_loader.getScene(scene_name)
             assert scene is not None
+
+            save_object_basepath = self.save_object_folder_path + scene_name + "/"
+            if os.path.exists(save_object_basepath):
+                continue
 
             print("[INFO][ObjectSpliter::splitAll]")
             print("\t start split scene", scene.scene_name, ",", i + 1, "/",
                   len(scene_name_list), "...")
             self.splitScene(scene)
-        return True
+        return
