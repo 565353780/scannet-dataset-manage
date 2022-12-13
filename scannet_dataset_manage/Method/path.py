@@ -6,7 +6,7 @@ import os
 
 def getFileFolderPath(file_path):
     file_name = file_path.split("/")[-1]
-    file_folder_path = file_path.split(file_name)[0]
+    file_folder_path = file_path.split("/" + file_name)[0] + "/"
     return file_folder_path
 
 
@@ -17,6 +17,8 @@ def createFileFolder(file_path):
 
 
 def renameFile(source_file_path, target_file_path):
+    assert not os.path.exists(target_file_path)
+
     while os.path.exists(source_file_path):
         try:
             os.rename(source_file_path, target_file_path)
@@ -26,7 +28,9 @@ def renameFile(source_file_path, target_file_path):
 
 
 def removeIfExist(file_path):
-    if not os.path.exists(file_path):
-        return True
-    os.remove(file_path)
+    while os.path.exists(file_path):
+        try:
+            os.remove(file_path)
+        except:
+            continue
     return True
