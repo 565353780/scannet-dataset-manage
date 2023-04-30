@@ -12,7 +12,7 @@ def demo():
     sens_file_path = '/home/chli/chLi/ScanNet/scans/scene0000_01/scene0000_01.sens'
     sens_file_path = '/home/chli/scene0000_01.sens'
     header_only = False
-    output_path = './tmp/'
+    output_path = './output/'
 
     sens_reader = SensReader(sens_file_path, header_only)
 
