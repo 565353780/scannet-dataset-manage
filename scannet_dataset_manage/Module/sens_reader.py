@@ -92,7 +92,7 @@ class SensReader(SensorData):
         os.makedirs(output_path, exist_ok=True)
         print('exporting',
               len(self.frames) // frame_skip, ' depth frames to', output_path)
-        for f in range(0, len(self.frames), frame_skip):
+        for f in tqdm(range(0, len(self.frames), frame_skip)):
             depth_data = self.frames[f].decompress_depth(
                 self.depth_compression_type)
             depth = np.fromstring(depth_data, dtype=np.uint16).reshape(
@@ -115,7 +115,7 @@ class SensReader(SensorData):
         os.makedirs(output_path, exist_ok=True)
         print('exporting',
               len(self.frames) // frame_skip, 'color frames to', output_path)
-        for f in range(0, len(self.frames), frame_skip):
+        for f in tqdm(range(0, len(self.frames), frame_skip)):
             color = self.frames[f].decompress_color(
                 self.color_compression_type)
             if image_size is not None:
@@ -134,7 +134,7 @@ class SensReader(SensorData):
         os.makedirs(output_path, exist_ok=True)
         print('exporting',
               len(self.frames) // frame_skip, 'camera poses to', output_path)
-        for f in range(0, len(self.frames), frame_skip):
+        for f in tqdm(range(0, len(self.frames), frame_skip)):
             self.save_mat_to_file(self.frames[f].camera_to_world,
                                   os.path.join(output_path,
                                                str(f) + '.txt'))
