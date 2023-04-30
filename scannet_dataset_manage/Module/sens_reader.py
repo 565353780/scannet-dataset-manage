@@ -80,15 +80,16 @@ class SensReader(SensorData):
             if header_only:
                 return True
 
-            for _ in range(self.num_frames):
+            print('[INFO][SensReader::loadSensFile]')
+            print('\t start load frames...')
+            for _ in tqdm(range(self.num_frames)):
                 frame = RGBDFrame()
                 frame.load(f)
                 self.frames.append(frame)
         return True
 
     def export_depth_images(self, output_path, image_size=None, frame_skip=1):
-        if not os.path.exists(output_path):
-            os.makedirs(output_path)
+        os.makedirs(output_path, exist_ok=True)
         print('exporting',
               len(self.frames) // frame_skip, ' depth frames to', output_path)
         for f in range(0, len(self.frames), frame_skip):
@@ -111,8 +112,7 @@ class SensReader(SensorData):
         return True
 
     def export_color_images(self, output_path, image_size=None, frame_skip=1):
-        if not os.path.exists(output_path):
-            os.makedirs(output_path)
+        os.makedirs(output_path, exist_ok=True)
         print('exporting',
               len(self.frames) // frame_skip, 'color frames to', output_path)
         for f in range(0, len(self.frames), frame_skip):
@@ -131,8 +131,7 @@ class SensReader(SensorData):
         return True
 
     def export_poses(self, output_path, frame_skip=1):
-        if not os.path.exists(output_path):
-            os.makedirs(output_path)
+        os.makedirs(output_path, exist_ok=True)
         print('exporting',
               len(self.frames) // frame_skip, 'camera poses to', output_path)
         for f in range(0, len(self.frames), frame_skip):
@@ -142,8 +141,7 @@ class SensReader(SensorData):
         return True
 
     def export_intrinsics(self, output_path):
-        if not os.path.exists(output_path):
-            os.makedirs(output_path)
+        os.makedirs(output_path, exist_ok=True)
         print('exporting camera intrinsics to', output_path)
         self.save_mat_to_file(self.intrinsic_color,
                               os.path.join(output_path, 'intrinsic_color.txt'))

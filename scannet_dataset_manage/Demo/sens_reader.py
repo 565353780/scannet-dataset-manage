@@ -12,6 +12,8 @@ def demo():
 
     sens_reader = SensReader(sens_file_path, header_only)
 
+    print('num_frames =', sens_reader.num_frames)
+
     return
     sens_reader.export_depth_images(output_path + 'depth/')
     sens_reader.export_color_images(output_path + 'color/')
